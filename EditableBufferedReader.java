@@ -2,13 +2,13 @@ import java.io.*;
 import java.awt.*;
 
 class EditableBufferedReader extends BufferedReader{
-//posar caracters que toquen
-	static final int L=37; //<-- in ASCII
-	static final int R=39;   //--> in ASCII
+//posar caracters que toquen mirar que no generin problemes
+	static final int L=; //<-- in ASCII
+	static final int R=;   //--> in ASCII
 	//static final int modo=;
 	static final int ini=72;
 	static final int fin=70;
-	static final int del=8;
+	static final int del=127;
 //	//static final int supr=;
 	//static final int ins=;
 	static final int EOF=13;
