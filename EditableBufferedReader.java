@@ -2,19 +2,17 @@ import java.io.*;
 import java.awt.*;
 
 class EditableBufferedReader extends BufferedReader{
-
+//posar caracters que toquen
 	static final int L=37; //<-- in ASCII
 	static final int R=39;   //--> in ASCII
 	//static final int modo=;
-	//static final int ini=;
-	//static final int fin=;
+	static final int ini=72;
+	static final int fin=70;
 	static final int del=8;
-//	static final int supr=;
+//	//static final int supr=;
 	//static final int ins=;
 	static final int EOF=13;
 	private Line line = new Line();
-
-	//MIRAR EL CONSTRUCTOOR, NS COMO HACERLO
 	public EditableBufferedReader(Reader in){
 		super(in);
 	}
