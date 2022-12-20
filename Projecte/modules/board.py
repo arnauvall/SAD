@@ -126,6 +126,29 @@ class Board:
             return True
 
         return False
+        
+    def check_mate(self, color):
+        # si estamos en jaque
+        #buscamos el rei
+        #si todos los movimientos del rei coinciden con los peligrosos estamos en jaque mate
+        if self.is_checked(color):
+            rei = None
+            
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                        if self.board[i][j].rei and self.board[i][j].color == color:
+                            rei = self.board[i][j]
+            if rei is not None:
+                valid_moves = rei.valid_moves(self.board)
+                danger_moves = self.get_danger_moves(color)
+                danger_count = 0
+                for move in valid_moves:
+                    if move in danger_moves:
+                        danger_count += 1
+                return danger_count == len(valid_moves)
+
+        return False
 
     def move(self, start, end, color):
         # primero de todo comprobamos si el rei esta en jaque
@@ -221,27 +244,6 @@ class Board:
                 if self.board[i][j] != 0:
                     self.board[i][j].selected = False
 
-    def check_mate(self, color):
-        # si estamos en jaque
-        #buscamos el rei
-        #si todos los movimientos del rei coinciden con los peligrosos estamos en jaque mate
-        if self.is_checked(color):
-            rei = None
-            
-            for i in range(self.rows):
-                for j in range(self.cols):
-                    if self.board[i][j] != 0:
-                        if self.board[i][j].rei and self.board[i][j].color == color:
-                            rei = self.board[i][j]
-            if rei is not None:
-                valid_moves = rei.valid_moves(self.board)
-                danger_moves = self.get_danger_moves(color)
-                danger_count = 0
-                for move in valid_moves:
-                    if move in danger_moves:
-                        danger_count += 1
-                return danger_count == len(valid_moves)
-
-        return False
+    
 
     
