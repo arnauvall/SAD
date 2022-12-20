@@ -537,40 +537,26 @@ def update_sidemenu(message, colour):
 
 def welcome():
     '''
-    Display a welcome screen.
-    This mostly is just blitting a bunch of surfaces in the right spot.
+    Pantalla inici.
+
     '''
     # wood background
     menubg = pygame.image.load("assets/menubg.jpg").convert()
     screen.blit(menubg, (0, 0))
     bigfont = pygame.font.Font("assets/Roboto-Black.ttf", 80)
-    textsurface = bigfont.render('Python Chess Game', False, (255, 255, 255))
+    textsurface = bigfont.render('Escacs Sara i Arnau', False, (255, 255, 255))
     screen.blit(textsurface, (30, 10))
 
     medfont = pygame.font.Font("assets/Roboto-Black.ttf", 50)
     textsurface = medfont.render(
-        'CMPUT 275 Final Project', False, (255, 255, 255))
+        'Projecte SAD', False, (255, 255, 255))
     screen.blit(textsurface, (100, 100))
     textsurface = myfont.render(
-        'Press any key to begin!', False, (255, 255, 255))
+        'Clica per a buscar partida!', False, (255, 255, 255))
     screen.blit(textsurface, (250, 170))
 
-    # king and queen images
-    menuking = pygame.image.load("assets/menuking.png").convert_alpha()
-    menuqueen = pygame.image.load("assets/menuqueen.png").convert_alpha()
-    menuking = pygame.transform.scale(menuking, (200, 200))
-    menuqueen = pygame.transform.scale(menuqueen, (200, 200))
-    screen.blit(menuking, (100, 230))
-    screen.blit(menuqueen, (500, 230))
 
-    # our names
-    textsurface = myfont.render(
-        'Arun Woosaree', False, (255, 255, 255))
-    screen.blit(textsurface, (100, 420))
 
-    textsurface = myfont.render(
-        'Tamara Bojovic', False, (255, 255, 255))
-    screen.blit(textsurface, (500, 420))
 
     # infinite loop until player wants to begin
     pygame.display.update()
