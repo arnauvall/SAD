@@ -198,7 +198,7 @@ class Board:
         # si estamos en jaque
         #buscamos el rei
         #si todos los movimientos del rei coinciden con los peligrosos estamos en jaque mate
-        '''if self.is_checked(color):
+        if self.is_checked(color):
             rei = None
             
             for i in range(self.rows):
@@ -213,7 +213,7 @@ class Board:
                 for move in valid_moves:
                     if move in danger_moves:
                         danger_count += 1
-                return danger_count == len(valid_moves)'''
+                return danger_count == len(valid_moves)
 
         return False
 
