@@ -21,8 +21,6 @@ class Board:
 
         self.ready = False
 
-        self.last = None
-
         self.copy = True
         self.board = [[0 for x in range(self.cols)] for _ in range(self.rows)]
 
@@ -87,15 +85,13 @@ class Board:
 
             xx1 = (4 - x) + round(self.startX + (x1 * self.rect[2] / 8))
             yy1 = 3 + round(self.startY + (y1 * self.rect[3] / 8))
-           
 
-        s = None
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if self.board[i][j] != 0:
-                    self.board[i][j].draw(win, color)
-                    if self.board[i][j].isSelected:
-                        s = (i, j)
+            #si hay una pieza en una casilla la imprimimos
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                        self.board[i][j].draw(win, color)
+
 
     #posibles movimientos de jaque
     def get_danger_moves(self, color):
@@ -130,6 +126,37 @@ class Board:
             return True
 
         return False
+
+    def move(self, start, end, color):
+        # primero de todo comprobamos si el rei esta en jaque
+        checkedBefore = self.is_checked(color)
+        changed = True
+        # si la pieza que movemos es un peon, ponemos la variable first a FALSE
+        if self.board[start[0]][start[1]].peon:
+            self.board[start[0]][start[1]].first = False
+        # movemos la pieza
+        self.board[start[0]][start[1]].change_pos((end[0], end[1]))
+        # cambiamos la casilla por la pieza
+        self.board[end[0]][end[1]] = board[start[0]][start[1]]
+        #ponemos la posición origen a 0, ahora no habrá pieza ahí
+        self.board[start[0]][start[1]] = 0
+
+        #si el rei ahora esta en jaque o antes lo estaba y ahora lo sigue estando
+        if self.is_checked(color) or (checkedBefore and self.is_checked(color)):
+            # no permitimos este movimiento y volvemos al tablero que teniamos al principio
+            changed = False
+            if self.board[end[0]][end[1]].peon:
+                self.board[end[0]][end[1]].first = True
+
+            self.board[end[0]][end[1]].change_pos((start[0], start[1]))
+            self.board[start[0]][start[1]] = self.board[end[0]][end[1]]
+            self.board[end[0]][end[1]] = 0
+        else:
+            self.reset_selected()
+        # actualizamos los nuevos movimientos validos
+        self.update_moves()
+
+        return changed
 
     def select(self, col, row, color):
         changed = False
@@ -217,45 +244,4 @@ class Board:
 
         return False
 
-    def move(self, start, end, color):
-        # primero de todo comprobamos si el rei esta en jaque
-        checkedBefore = self.is_checked(color)
-        changed = True
-        nBoard = self.board[:]
-        # si la pieza que movemos es un peon, ponemos la variable first a FALSE
-        if bard[start[0]][start[1]].peon:
-            board[start[0]][start[1]].first = False
-        # movemos la pieza
-        nBoard[start[0]][start[1]].change_pos((end[0], end[1]))
-        # cambiamos la casilla por la pieza
-        nBoard[end[0]][end[1]] = nBoard[start[0]][start[1]]
-        #ponemos la posición origen a 0, ahora no habrá pieza ahí
-        nBoard[start[0]][start[1]] = 0
-        #actualizamos el tablero
-        self.board = nBoard
-
-        #si el rei ahora esta en jaque o antes lo estaba y ahora lo sigue estando
-        if self.is_checked(color) or (checkedBefore and self.is_checked(color)):
-            # no permitimos este movimiento y volvemos al tablero que teniamos al principio
-            changed = False
-            nBoard = self.board[:]
-            if nBoard[end[0]][end[1]].peon:
-                nBoard[end[0]][end[1]].first = True
-
-            nBoard[end[0]][end[1]].change_pos((start[0], start[1]))
-            nBoard[start[0]][start[1]] = nBoard[end[0]][end[1]]
-            nBoard[end[0]][end[1]] = 0
-            self.board = nBoard
-        else:
-            self.reset_selected()
-        # actualizamos los nuevos movimientos validos
-        self.update_moves()
-        if changed:
-            self.last = [start, end]
-            if self.turn == "w":
-                self.storedTime1 += (time.time() - self.startTime)
-            else:
-                self.storedTime2 += (time.time() - self.startTime)
-            self.startTime = time.time()
-
-        return changed
+    
