@@ -66,13 +66,6 @@ class Piece:
 
         win.blit(drawThis, (x, y))
 
-        '''if self.selected and self.color == color:  # Remove false to draw dots
-            moves = self.move_list
-            for move in moves:
-                x = 33 + round(self.startX + (move[0] * self.rect[2] / 8))
-                y = 33 + round(self.startY + (move[1] * self.rect[3] / 8))
-                pygame.draw.circle(win, (255, 0, 0), (x, y), 10)'''
-
     #para cambiar la posicion de las piezas
     def change_pos(self, pos):
         self.row = pos[0]
